@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+	<!-- spring boot默认配置 -->
+	<include
+		resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+	<!-- 定义日志文件的存储地址(FILE_PATH)和文件名前缀(APP_NAME) ，当部署到tomcat的情况下，FILE_PATH需要填写为tomcat/logs的绝对目录 -->
+	<!-- <property name="FILE_PATH" value="E:/dev/log"/> -->
+	<property name="FILE_PATH" value="./logs" />
+	<property name="APP_NAME" value="mqtt" />
+	<property name="COMMON_LOG_PATTERN"
+		value="[${APP_NAME}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%thread] [%logger]  -  %msg%n" />
+	<!-- 控制台日志 -->
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				${COMMON_LOG_PATTERN}
+			</pattern>
+		</encoder>
+	</appender>
+	  
+	<!-- 文件日志 -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>
+				${COMMON_LOG_PATTERN}
+			</pattern>
+			<charset>UTF-8</charset> <!-- 此处设置字符集 -->
+		</encoder>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${FILE_PATH}/${APP_NAME}/${APP_NAME}_%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<!--设置单个文件大小 -->
+			<maxFileSize>100MB</maxFileSize>
+			<!--设置保存时间，单位月 -->
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+	</appender>
+	<!-- 文件日志 -->
+	<appender name="ERROR"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<!-- 过滤器，只记录WARN级别的日志 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+
+		<encoder>
+			<pattern>
+				${COMMON_LOG_PATTERN}
+			</pattern>
+			<charset>UTF-8</charset> <!-- 此处设置字符集 -->
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${FILE_PATH}/${APP_NAME}/err/${APP_NAME}_%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<!--设置单个文件大小 -->
+			<maxFileSize>100MB</maxFileSize>
+			<!--设置保存时间，单位月 -->
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<springProfile name="loc">
+		<logger name="com.lzb" level="debug"></logger>
+		<logger name="io.netty" level="info"></logger>
+		<logger name="com.netflix" level="ERROR"></logger>
+		<root level="info">
+			<appender-ref ref="CONSOLE" />
+		</root>
+	</springProfile>
+
+	<springProfile name="test">
+		<logger name="com.lzb" level="debug"></logger>
+		<logger name="com.netflix" level="ERROR"></logger>
+		<root level="info">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERROR" />
+		</root>
+	</springProfile>
+
+	<springProfile name="prod">
+		<logger name="com.lzb" level="info"></logger>
+		<logger name="com.netflix" level="ERROR"></logger>
+		<root level="info">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERROR" />
+		</root>
+	</springProfile>
+
+	<springProfile name="lzb">
+		<logger name="com.lzb.rock.base.aop.LogAop" level="ERROR"></logger>
+		<logger name="com.lzb.tell.netty.handler" level="ERROR"></logger>
+		<logger name="io.netty.handler.logging.LoggingHandler"
+			level="ERROR"></logger>
+
+		<logger name="com.lzb" level="info"></logger>
+		<logger name="com.netflix" level="ERROR"></logger>
+
+
+		<root level="info">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERROR" />
+			<appender-ref ref="CONSOLE" />
+
+		</root>
+	</springProfile>
+
+
+</configuration>

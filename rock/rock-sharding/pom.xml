@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.lzb</groupId>
+		<artifactId>rock</artifactId>
+		<version>7.0.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.lzb.rock.sharding</groupId>
+	<artifactId>rock-sharding</artifactId>
+
+	<name>rock-sharding</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.lzb.rock.base</groupId>
+			<artifactId>rock-base</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lzb.rock.redis</groupId>
+			<artifactId>rock-redis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shardingsphere</groupId>
+			<artifactId>sharding-jdbc-core</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+					<charset>${project.build.charsetEncoding}</charset>
+					<encoding>${project.build.docencodingEncoding}</encoding>
+					<docencoding>${project.build.docencodingEncoding}</docencoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
