@@ -24,7 +24,6 @@ logs
 *.iml
 *.ipr
 target
-log.*
 /*/log/*
 .DS_Store
 .project
